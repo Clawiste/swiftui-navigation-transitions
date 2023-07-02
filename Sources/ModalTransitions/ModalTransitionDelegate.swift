@@ -11,14 +11,14 @@
 
 import UIKit
 
-final class ModalTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
+@_spi(package) public final class ModalTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
     let presentation: ModalPresentation
     let transition: AnyModalTransition
     
     var interactionController: UIPercentDrivenInteractiveTransition?
     private var initialAreAnimationsEnabled = UIView.areAnimationsEnabled
 
-    init(
+    public init(
         transition: AnyModalTransition,
         presentation: ModalPresentation
     ) {

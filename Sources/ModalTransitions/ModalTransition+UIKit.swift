@@ -108,11 +108,11 @@ struct ModalHostingView<Item: Identifiable, Destination: View>: UIViewRepresenta
     }
 }
 
-final class HostingController<Item: Identifiable, Destination: View>: UIHostingController<Destination> {
-    let item: Item
+@_spi(package) public final class HostingController<Item: Identifiable, Destination: View>: UIHostingController<Destination> {
+    public let item: Item
     let onDismiss: (() -> Void)?
     
-    init(
+    public init(
         item: Item,
         destination: @escaping (Item) -> Destination,
         onDismiss: (() -> Void)?
@@ -127,7 +127,7 @@ final class HostingController<Item: Identifiable, Destination: View>: UIHostingC
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         onDismiss?()

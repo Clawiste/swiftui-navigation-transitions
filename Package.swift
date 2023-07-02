@@ -65,6 +65,10 @@ package.targets += [
         "RuntimeAssociation",
         "RuntimeSwizzling",
     ]),
+    
+    .target(name: "WindowTransitions", dependencies: [
+        "ModalTransitions"
+    ]),
 
 	.target(name: "NavigationTransition", dependencies: [
 		"Animation",
@@ -93,4 +97,5 @@ package.targets += [
 package.products += [
 	.library(name: "NavigationTransitions", targets: ["NavigationTransitions"]),
     .library(name: "ModalTransitions", targets: ["ModalTransitions"]),
+    .library(name: "WindowTransitions", targets: ["WindowTransitions"])
 ]
