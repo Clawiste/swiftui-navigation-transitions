@@ -53,6 +53,18 @@ package.targets += [
 		"AtomicTransition",
 		"TestUtils",
 	]),
+    
+    .target(name: "ModalTransition", dependencies: [
+        "Animation",
+        "AtomicTransition",
+        SwiftUIIntrospect,
+    ]),
+
+    .target(name: "ModalTransitions", dependencies: [
+        "ModalTransition",
+        "RuntimeAssociation",
+        "RuntimeSwizzling",
+    ]),
 
 	.target(name: "NavigationTransition", dependencies: [
 		"Animation",
@@ -80,4 +92,5 @@ package.targets += [
 
 package.products += [
 	.library(name: "NavigationTransitions", targets: ["NavigationTransitions"]),
+    .library(name: "ModalTransitions", targets: ["ModalTransitions"]),
 ]
