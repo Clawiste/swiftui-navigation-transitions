@@ -127,9 +127,42 @@ struct ModalHostingView<Item: Identifiable, Destination: View>: UIViewRepresenta
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         onDismiss?()
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        clearBackgroundColor(views: [view])
+    }
+    
+    #warning("Is there better a solution?")
+    func clearBackgroundColor(views: [UIView]) {
+        views
+            .forEach { view in
+                let viewClass = String(describing: type(of: view))
+                
+                let shouldClearBackgroud = ["_UIHostingView", "_UISplitViewControllerPanelImplView"]
+                    .reduce(false) {
+                        if $0 {
+                            return $0
+                        } else {
+                            return viewClass.contains($1)
+                        }
+                    }
+                
+                if shouldClearBackgroud {
+                    view.backgroundColor = .clear
+                }
+                
+                clearBackgroundColor(views: view.subviews)
+            }
     }
 }
