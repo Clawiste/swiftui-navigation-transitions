@@ -3,18 +3,21 @@
 import UIKit
 import SwiftUI
 
-extension AnyModalTransition {
-    public enum Interactivity {
-        case disabled
-
-        @inlinable
-        public static var `default`: Self {
-            .disabled
+struct ModalHostingView<Item: Identifiable, Destination: View>: UIViewRepresentable {
+    class Coordinator: NSObject {
+        var id: Int?
+        let onDismiss: (() -> Void)?
+        let delegate: ModalTransitionDelegate
+        
+        init(
+            onDismiss: (() -> Void)? = nil,
+            delegate: ModalTransitionDelegate
+        ) {
+            self.onDismiss = onDismiss
+            self.delegate = delegate
         }
     }
-}
-
-struct ModalHostingView<Item: Identifiable, Destination: View>: UIViewRepresentable {
+    
     private let onDismiss: (() -> Void)?
     private let item: Binding<Item?>
     private let destination: (Item) -> Destination
@@ -79,8 +82,13 @@ struct ModalHostingView<Item: Identifiable, Destination: View>: UIViewRepresenta
     }
     
     static func dismantleUIView(_ uiView: ViewControllerReader, coordinator: Coordinator) {
-        coordinator.onDismiss?()
-        uiView.presentingViewController?.presentedViewController?.dismiss(animated: true)
+        if
+            let presentingViewController = uiView.presentingViewController?.presentedViewController,
+            presentingViewController.view.tag == coordinator.id
+        {
+            coordinator.onDismiss?()
+            uiView.presentingViewController?.presentedViewController?.dismiss(animated: true)
+        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -91,20 +99,6 @@ struct ModalHostingView<Item: Identifiable, Destination: View>: UIViewRepresenta
                 presentation: presentation
             )
         )
-    }
-
-    class Coordinator: NSObject {
-        var id: Int?
-        let onDismiss: (() -> Void)?
-        let delegate: ModalTransitionDelegate
-        
-        init(
-            onDismiss: (() -> Void)? = nil,
-            delegate: ModalTransitionDelegate
-        ) {
-            self.onDismiss = onDismiss
-            self.delegate = delegate
-        }
     }
 }
 

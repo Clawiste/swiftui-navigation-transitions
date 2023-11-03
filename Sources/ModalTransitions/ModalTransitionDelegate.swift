@@ -15,7 +15,7 @@ import UIKit
     let presentation: ModalPresentation
     let transition: AnyModalTransition
     
-    var interactionController: UIPercentDrivenInteractiveTransition?
+    public var interactionController: UIPercentDrivenInteractiveTransition?
     private var initialAreAnimationsEnabled = UIView.areAnimationsEnabled
 
     public init(

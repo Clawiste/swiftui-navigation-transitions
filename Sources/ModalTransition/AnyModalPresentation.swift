@@ -21,7 +21,10 @@ extension AnyModalPresentation: ModalPresentation {
         return presentation.modalPresentationStyle
     }
     
-    public func presentationController(presentedViewController: UIViewController, presenting: UIViewController?) -> UIPresentationController? {
+    public func presentationController(
+        presentedViewController: UIViewController,
+        presenting: UIViewController?
+    ) -> UIPresentationController? {
         return presentation.presentationController(presentedViewController: presentedViewController, presenting: presenting)
     }
 }
